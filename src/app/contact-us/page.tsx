@@ -14,8 +14,10 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import MapEmbed from "../../components/MapEmbed";
+import LuxuryDepthAccents from "@/src/components/site/LuxuryDepthAccents";
+import TurnstileWidget from "@/src/components/security/TurnstileWidget";
 
 const googleBusinessName = "J Luxe Medical Aesthetics";
 const googleRating = 5;
@@ -106,6 +108,51 @@ const fieldItem: Variants = {
   },
 };
 
+type SubmitState = "idle" | "submitting" | "success" | "error";
+
+type FormSubmitResponse = {
+  ok: boolean;
+  message?: string;
+  error?: string;
+};
+
+type FieldPayload = string | string[];
+
+function toSubmissionData(formData: FormData): Record<string, FieldPayload> {
+  const payload: Record<string, FieldPayload> = {};
+
+  for (const [key, rawValue] of formData.entries()) {
+    if (key.trim().toLowerCase() === "cf-turnstile-response") {
+      continue;
+    }
+
+    if (typeof rawValue !== "string") {
+      continue;
+    }
+
+    const value = rawValue.trim();
+    if (!value) {
+      continue;
+    }
+
+    const existing = payload[key];
+    if (!existing) {
+      payload[key] = value;
+      continue;
+    }
+
+    if (Array.isArray(existing)) {
+      existing.push(value);
+      payload[key] = existing;
+      continue;
+    }
+
+    payload[key] = [existing, value];
+  }
+
+  return payload;
+}
+
 function normalizeReferralCode(value: string) {
   return value
     .trim()
@@ -129,10 +176,14 @@ function renderStars(rating: number, sizeClass = "w-4 h-4") {
 }
 
 export default function ContactPage() {
-  const [submitState, setSubmitState] = useState<"idle" | "submitting" | "success">("idle");
+  const [submitState, setSubmitState] = useState<SubmitState>("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
   const [referralCode, setReferralCode] = useState("");
   const [hasTrackedReferral, setHasTrackedReferral] = useState(false);
   const [incomingReferralParam, setIncomingReferralParam] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
   const contactSchema = useMemo(
     () => ({
@@ -181,13 +232,64 @@ export default function ContactPage() {
     [],
   );
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSubmitState("submitting");
 
-    setTimeout(() => {
+    if (turnstileSiteKey && !turnstileToken) {
+      setSubmitState("error");
+      setSubmitMessage("Please complete the verification before submitting.");
+      return;
+    }
+
+    setSubmitState("submitting");
+    setSubmitMessage("");
+
+    const formElement = event.currentTarget;
+    const formData = new FormData(formElement);
+    const data = toSubmissionData(formData);
+
+    try {
+      const response = await fetch("/api/forms/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          treatmentName: "Contact Enquiry",
+          treatmentPath: "/contact-us",
+          template: "standard",
+          submittedAt: new Date().toISOString(),
+          data,
+          fieldBlueprint: [
+            { name: "firstName", label: "First Name", section: "Contact Enquiry", order: 0 },
+            { name: "lastName", label: "Last Name", section: "Contact Enquiry", order: 1 },
+            { name: "email", label: "Email Address", section: "Contact Enquiry", order: 2 },
+            { name: "phone", label: "Phone Number", section: "Contact Enquiry", order: 3 },
+            { name: "referralCode", label: "Referral Code", section: "Contact Enquiry", order: 4 },
+            { name: "treatment", label: "Treatment Of Interest", section: "Contact Enquiry", order: 5 },
+            { name: "message", label: "Your Message", section: "Contact Enquiry", order: 6 },
+          ],
+          turnstileToken,
+        }),
+      });
+
+      const result = (await response.json()) as FormSubmitResponse;
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error ?? "Unable to submit form.");
+      }
+
+      formElement.reset();
+      setTurnstileToken("");
+      setReferralCode(normalizeReferralCode(incomingReferralParam));
       setSubmitState("success");
-    }, 1400);
+      setSubmitMessage("Thanks. Your message has been received and our team will contact you shortly.");
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    } catch (error) {
+      console.error("[ContactFormSubmitError]", error);
+      setSubmitState("error");
+      setSubmitMessage("We could not send your message right now. Please try again.");
+    }
   };
 
   useEffect(() => {
@@ -234,7 +336,8 @@ export default function ContactPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
       {/* HERO */}
-      <section className="relative min-h-[56vh] md:min-h-[62vh] overflow-hidden border-b border-[#D4AF37]/20">
+      <section className="luxury-depth-shell relative min-h-[56vh] overflow-hidden border-b border-[#D4AF37]/20 md:min-h-[62vh]">
+        <LuxuryDepthAccents variant="hero" ribbon className="z-10" />
         <motion.div
           className="absolute inset-0 z-0"
           initial={{ scale: 1.04 }}
@@ -327,7 +430,7 @@ export default function ContactPage() {
 
             <motion.div variants={revealItem} className="lg:col-span-4">
               <motion.article
-                className="group relative overflow-hidden rounded-[24px] border border-[#D4AF37]/30 bg-gradient-to-br from-[#181208]/85 via-black/72 to-[#090909]/95 p-5 backdrop-blur-md"
+                className="luxury-glass-card luxury-sheen group relative rounded-[24px] p-5"
                 animate={{ y: [0, -5, 0] }}
                 transition={{ duration: 6.2, repeat: Infinity, ease: "easeInOut" }}
                 whileHover={{ y: -4, scale: 1.01, borderColor: "rgba(212,175,55,0.35)" }}
@@ -400,7 +503,8 @@ export default function ContactPage() {
       </section>
 
       {/* CONTACT GRID */}
-      <section className="relative px-4 py-16 md:px-8 md:py-24">
+      <section className="luxury-depth-shell relative px-4 py-16 md:px-8 md:py-24">
+        <LuxuryDepthAccents variant="section" className="z-0" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_82%_10%,rgba(212,175,55,0.12),transparent_42%)]" />
         <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:radial-gradient(rgba(212,175,55,0.2)_1px,transparent_1px)] [background-size:28px_28px]" />
         <motion.div
@@ -434,7 +538,7 @@ export default function ContactPage() {
               variants={revealItem}
               whileHover={{ y: -4, borderColor: "rgba(212,175,55,0.4)" }}
               transition={{ duration: 0.22, ease: "easeOut" }}
-              className="relative overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-b from-[#141108]/80 via-black/65 to-[#090909]/90 p-4"
+              className="luxury-step-card relative rounded-2xl p-4"
             >
               <div className="pointer-events-none absolute -right-12 -top-12 h-24 w-24 rounded-full bg-[#D4AF37]/10 blur-2xl" />
               <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[#D4AF37]">
@@ -451,7 +555,7 @@ export default function ContactPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-120px" }}
             transition={{ duration: 0.72, ease: "easeOut" }}
-            className="relative overflow-hidden lg:col-span-7 rounded-[26px] border border-[#D4AF37]/20 bg-gradient-to-b from-[#13100a]/85 via-[#0b0b0b]/92 to-black/95 p-5 sm:p-6 md:p-7"
+            className="luxury-glass-card relative overflow-hidden rounded-[26px] p-5 sm:p-6 md:p-7 lg:col-span-7"
           >
             <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/80 to-transparent" />
             <div className="pointer-events-none absolute -left-20 top-16 h-52 w-52 rounded-full bg-[#D4AF37]/10 blur-3xl" />
@@ -508,6 +612,7 @@ export default function ContactPage() {
             )}
 
             <motion.form
+              ref={formRef}
               onSubmit={handleSubmit}
               className="relative z-10 space-y-4"
               initial="hidden"
@@ -626,6 +731,17 @@ export default function ContactPage() {
               </motion.div>
 
               <motion.div className="space-y-3 pt-1" variants={fieldItem}>
+                {turnstileSiteKey ? (
+                  <div>
+                    <TurnstileWidget
+                      siteKey={turnstileSiteKey}
+                      onVerify={(token) => setTurnstileToken(token)}
+                      onExpire={() => setTurnstileToken("")}
+                      onError={() => setTurnstileToken("")}
+                    />
+                  </div>
+                ) : null}
+
                 <motion.button
                   type="submit"
                   disabled={submitState === "submitting"}
@@ -644,7 +760,17 @@ export default function ContactPage() {
                       exit={{ opacity: 0, y: 8 }}
                       className="rounded-xl border border-[#D4AF37]/30 bg-[#1b1509] px-4 py-3 text-xs text-[#f0dc9b]"
                     >
-                      Thanks. Your message has been received and our team will contact you shortly.
+                      {submitMessage}
+                    </motion.p>
+                  )}
+                  {submitState === "error" && (
+                    <motion.p
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 8 }}
+                      className="rounded-xl border border-red-500/40 bg-red-900/20 px-4 py-3 text-xs text-red-200"
+                    >
+                      {submitMessage}
                     </motion.p>
                   )}
                 </AnimatePresence>

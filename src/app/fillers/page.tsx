@@ -16,6 +16,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import MapEmbed from "../../components/MapEmbed";
+import LuxuryDepthAccents from "@/src/components/site/LuxuryDepthAccents";
 import {
   pricingCategories,
   type PricingCategory,
@@ -276,7 +277,8 @@ export default function FillersPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <section className="relative min-h-[62vh] overflow-hidden border-b border-[#D4AF37]/20 md:min-h-[70vh]">
+      <section className="luxury-depth-shell relative min-h-[62vh] overflow-hidden border-b border-[#D4AF37]/20 md:min-h-[70vh]">
+        <LuxuryDepthAccents variant="hero" ribbon className="z-10" />
         <Image
           src="/images/dermalFillers.png"
           alt="Dermal fillers at J Luxe Medical Aesthetics medical aesthetics clinic in Hackney London"

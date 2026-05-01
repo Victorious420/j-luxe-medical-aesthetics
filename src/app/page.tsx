@@ -20,6 +20,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import MapEmbed from "../components/MapEmbed";
 import { featuredLocalBookingLinks } from "@/src/lib/seo/local-landing-pages";
+import LuxuryDepthAccents from "@/src/components/site/LuxuryDepthAccents";
 
 export default function HomePage() {
   const heroStagger: Variants = {
@@ -167,7 +168,8 @@ export default function HomePage() {
       />
       
       {/* HERO SECTION */}
-      <section className="relative min-h-[82vh] flex items-center overflow-hidden">
+      <section className="luxury-depth-shell relative flex min-h-[82vh] items-center overflow-hidden">
+        <LuxuryDepthAccents variant="hero" ribbon className="z-10" />
         {/* Hero Background */}
         <motion.div
           className="absolute inset-0 z-0"
@@ -176,7 +178,7 @@ export default function HomePage() {
           transition={{ duration: 2.2, ease: "easeOut" }}
         >
           <div className="absolute inset-0 bg-[#080808]" />
-          <div className="absolute inset-y-0 right-0 w-full sm:w-[88%] md:w-[72%] lg:w-[60%]">
+          <div className="absolute inset-y-0 right-0 w-full sm:w-[88%] md:w-[76%] lg:w-[64%]">
             <Image
               src="/images/heroBackground.png"
               alt="J Luxe Medical Aesthetics treatment room in Hackney, London"
@@ -193,11 +195,11 @@ export default function HomePage() {
               className="hidden object-cover object-right-top lg:block"
               sizes="60vw"
             />
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-32 sm:w-44 md:w-56 lg:w-72 bg-gradient-to-r from-[#080808] via-[#080808]/70 to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 -left-8 w-16 bg-[#080808]/70 blur-2xl" />
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-28 sm:w-40 md:w-48 lg:w-56 bg-gradient-to-r from-[#080808] via-[#080808]/48 to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 -left-6 w-12 bg-[#080808]/45 blur-2xl" />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-black/88 via-black/72 to-black/45 z-10" />
-          <div className="absolute inset-0 bg-black/28 z-10" />
+          <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/78 via-black/58 to-black/22" />
+          <div className="absolute inset-0 z-10 bg-black/14" />
         </motion.div>
 
         {/* Moving atmosphere layers */}
@@ -267,8 +269,8 @@ export default function HomePage() {
               </motion.div>
             </div>
 
-            <motion.div variants={heroItem} className="lg:col-span-5">
-              <div className="relative bg-black/40 border border-neutral-700 rounded-2xl p-6 md:p-8 backdrop-blur-sm shadow-2xl">
+          <motion.div variants={heroItem} className="lg:col-span-5">
+              <div className="luxury-glass-card luxury-sheen relative rounded-[28px] p-6 md:p-8">
                 <motion.div
                   className="absolute -top-4 -right-2 rounded-full bg-[#D4AF37] text-black text-[11px] font-extrabold uppercase tracking-wide px-4 py-2"
                   animate={{ y: [0, -6, 0] }}
@@ -326,14 +328,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="border-b border-neutral-800 bg-[#060606] px-4 py-8 md:px-8">
+      <section className="luxury-depth-shell border-b border-neutral-800 bg-[#060606] px-4 py-8 md:px-8">
+        <LuxuryDepthAccents variant="section" className="z-0" />
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 md:grid-cols-3">
           <Link
             href="/pricing"
             data-cta-name="book_consultation"
             data-cta-location="homepage_booking_routes"
             data-page-type="homepage"
-            className="cta-button rounded-[24px] border border-[#D4AF37]/30 bg-gradient-to-br from-[#17120a] via-[#0a0a0a] to-[#090909] p-5"
+            className="cta-button luxury-glass-card rounded-[24px] p-5"
           >
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#D4AF37]">
               Fastest Route
@@ -356,7 +359,7 @@ export default function HomePage() {
             data-cta-name="whatsapp"
             data-cta-location="homepage_booking_routes"
             data-page-type="homepage"
-            className="cta-button rounded-[24px] border border-[#D4AF37]/25 bg-gradient-to-br from-[#17120a] via-[#060606] to-[#090909] p-5"
+            className="cta-button luxury-glass-card rounded-[24px] p-5"
           >
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#D4AF37]">
               Need Guidance?
@@ -377,7 +380,7 @@ export default function HomePage() {
             data-cta-name="call_now"
             data-cta-location="homepage_booking_routes"
             data-page-type="homepage"
-            className="cta-button rounded-[24px] border border-white/15 bg-gradient-to-br from-[#111111] via-[#090909] to-[#060606] p-5"
+            className="cta-button luxury-glass-card rounded-[24px] p-5"
           >
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#D4AF37]">
               Prefer To Speak?
@@ -396,14 +399,15 @@ export default function HomePage() {
       </section>
 
       {/* WELCOME SECTION */}
-      <section className="py-24 px-4 md:px-8">
+      <section className="luxury-depth-shell py-24 px-4 md:px-8">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-120px" }}
           variants={revealStagger}
-          className="relative max-w-7xl mx-auto overflow-hidden rounded-[34px] border border-neutral-800 bg-gradient-to-br from-[#111111] via-[#080808] to-[#131313] p-6 md:p-10 lg:p-12"
+          className="luxury-panel relative mx-auto max-w-7xl overflow-hidden rounded-[34px] p-6 md:p-10 lg:p-12"
         >
+          <LuxuryDepthAccents variant="section" className="z-0" />
           <motion.div
             className="pointer-events-none absolute -left-24 -top-16 h-64 w-64 rounded-full bg-[#D4AF37]/15 blur-3xl"
             animate={{ x: [0, 18, 0], y: [0, 12, 0] }}
@@ -447,28 +451,28 @@ export default function HomePage() {
               >
                 <motion.div
                   variants={revealItem}
-                  className="rounded-xl border border-white/15 bg-black/35 px-4 py-3 flex items-center gap-3"
+                  className="luxury-glass-card rounded-xl px-4 py-3 flex items-center gap-3"
                 >
                   <ShieldCheck className="w-5 h-5 text-[#D4AF37] shrink-0" />
                   <span className="text-sm text-gray-200">Medical-led expertise</span>
                 </motion.div>
                 <motion.div
                   variants={revealItem}
-                  className="rounded-xl border border-white/15 bg-black/35 px-4 py-3 flex items-center gap-3"
+                  className="luxury-glass-card rounded-xl px-4 py-3 flex items-center gap-3"
                 >
                   <Sparkles className="w-5 h-5 text-[#D4AF37] shrink-0" />
                   <span className="text-sm text-gray-200">Natural-looking results</span>
                 </motion.div>
                 <motion.div
                   variants={revealItem}
-                  className="rounded-xl border border-white/15 bg-black/35 px-4 py-3 flex items-center gap-3"
+                  className="luxury-glass-card rounded-xl px-4 py-3 flex items-center gap-3"
                 >
                   <Droplet className="w-5 h-5 text-[#D4AF37] shrink-0" />
                   <span className="text-sm text-gray-200">Premium product range</span>
                 </motion.div>
                 <motion.div
                   variants={revealItem}
-                  className="rounded-xl border border-white/15 bg-black/35 px-4 py-3 flex items-center gap-3"
+                  className="luxury-glass-card rounded-xl px-4 py-3 flex items-center gap-3"
                 >
                   <CheckCircle className="w-5 h-5 text-[#D4AF37] shrink-0" />
                   <span className="text-sm text-gray-200">Dedicated aftercare</span>
@@ -501,7 +505,7 @@ export default function HomePage() {
                   animate={{ opacity: [0.45, 0.75, 0.45] }}
                   transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
                 />
-                <div className="relative rounded-[28px] border border-white/20 bg-black/50 backdrop-blur-sm p-6 md:p-7">
+                <div className="luxury-glass-card relative rounded-[28px] p-6 md:p-7">
                   <p className="text-xs tracking-[0.2em] uppercase text-[#D4AF37] mb-3">
                     Client Journey
                   </p>
@@ -542,7 +546,7 @@ export default function HomePage() {
                       animate={{ y: [0, -5, 0] }}
                       transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", delay: 0 }}
                       whileHover={{ y: -8, scale: 1.03, rotateX: 2, rotateY: -4 }}
-                      className="intrigue-card group relative overflow-hidden rounded-2xl border border-[#D4AF37]/30 bg-gradient-to-b from-[#151515] to-[#090909] px-4 py-5 text-center"
+                      className="intrigue-card luxury-step-card luxury-card-hover group relative rounded-2xl px-4 py-5 text-center"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/10 via-transparent to-[#D4AF37]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <div className="relative mb-3 flex justify-center">
@@ -564,7 +568,7 @@ export default function HomePage() {
                       animate={{ y: [0, -5, 0] }}
                       transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", delay: 0.18 }}
                       whileHover={{ y: -8, scale: 1.03, rotateX: 2, rotateY: -4 }}
-                      className="intrigue-card group relative overflow-hidden rounded-2xl border border-[#D4AF37]/30 bg-gradient-to-b from-[#151515] to-[#090909] px-4 py-5 text-center"
+                      className="intrigue-card luxury-step-card luxury-card-hover group relative rounded-2xl px-4 py-5 text-center"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/10 via-transparent to-[#D4AF37]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <div className="relative mb-3 flex justify-center">
@@ -586,7 +590,7 @@ export default function HomePage() {
                       animate={{ y: [0, -5, 0] }}
                       transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", delay: 0.36 }}
                       whileHover={{ y: -8, scale: 1.03, rotateX: 2, rotateY: -4 }}
-                      className="intrigue-card group relative overflow-hidden rounded-2xl border border-[#D4AF37]/30 bg-gradient-to-b from-[#151515] to-[#090909] px-4 py-5 text-center"
+                      className="intrigue-card luxury-step-card luxury-card-hover group relative rounded-2xl px-4 py-5 text-center"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/10 via-transparent to-[#D4AF37]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <div className="relative mb-3 flex justify-center">
@@ -611,7 +615,8 @@ export default function HomePage() {
       </section>
 
       {/* FEATURED TREATMENTS */}
-      <section className="relative py-20 px-4 md:px-8 bg-neutral-900/50 overflow-hidden">
+      <section className="luxury-depth-shell relative overflow-hidden bg-neutral-900/50 px-4 py-20 md:px-8">
+        <LuxuryDepthAccents variant="section" ribbon className="z-0" />
         <motion.div
           className="pointer-events-none absolute -left-20 top-20 h-64 w-64 rounded-full bg-[#D4AF37]/10 blur-3xl"
           animate={{ x: [0, 20, 0], y: [0, 14, 0] }}
@@ -665,7 +670,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-120px" }}
             transition={{ duration: 0.7, ease: "easeOut", delay: 0.08 }}
-            className="mb-8 rounded-[28px] border border-[#D4AF37]/20 bg-gradient-to-r from-[#17120a]/80 via-[#0a0a0a] to-[#080808] p-5 md:p-6"
+            className="luxury-panel mb-8 rounded-[28px] p-5 md:p-6"
           >
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="max-w-2xl">
@@ -694,7 +699,7 @@ export default function HomePage() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="cta-button rounded-2xl border border-white/12 bg-black/35 px-4 py-3 text-sm font-semibold text-white transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
+                  className="cta-button luxury-glass-card rounded-2xl px-4 py-3 text-sm font-semibold text-white transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
                 >
                   {item.label}
                 </Link>
@@ -713,7 +718,7 @@ export default function HomePage() {
               variants={revealItem}
               whileHover={{ y: -10, scale: 1.02, rotate: -0.8, rotateX: 2, rotateY: -5 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="intrigue-card group relative overflow-hidden rounded-[34px] border border-[#D4AF37]/25 bg-gradient-to-b from-[#1a1409] via-[#0c0c0c] to-[#070707] backdrop-blur-sm shadow-[0_20px_50px_rgba(0,0,0,0.45)]"
+              className="intrigue-card luxury-glass-card luxury-card-hover group relative rounded-[34px]"
             >
               <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full border border-[#D4AF37]/25" />
               <div className="pointer-events-none absolute -left-10 bottom-12 h-24 w-24 rounded-full bg-[#D4AF37]/10 blur-2xl" />
@@ -772,7 +777,7 @@ export default function HomePage() {
               variants={revealItem}
               whileHover={{ y: -10, scale: 1.02, rotateX: 2, rotateY: -4 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="intrigue-card group relative overflow-hidden rounded-[34px] border border-[#D4AF37]/25 bg-gradient-to-b from-[#111710] via-[#0b0c0a] to-[#070707] backdrop-blur-sm shadow-[0_20px_50px_rgba(0,0,0,0.45)]"
+              className="intrigue-card luxury-glass-card luxury-card-hover group relative rounded-[34px]"
             >
               <div className="pointer-events-none absolute -left-14 -top-14 h-36 w-36 rounded-full border border-[#D4AF37]/20" />
               <div className="pointer-events-none absolute right-0 bottom-8 h-24 w-24 rounded-full bg-[#D4AF37]/10 blur-2xl" />
@@ -831,7 +836,7 @@ export default function HomePage() {
               variants={revealItem}
               whileHover={{ y: -10, scale: 1.02, rotate: 0.8, rotateX: 2, rotateY: 5 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="intrigue-card group relative overflow-hidden rounded-[34px] border border-[#D4AF37]/25 bg-gradient-to-b from-[#191308] via-[#0c0b09] to-[#070707] backdrop-blur-sm shadow-[0_20px_50px_rgba(0,0,0,0.45)]"
+              className="intrigue-card luxury-glass-card luxury-card-hover group relative rounded-[34px]"
             >
               <div className="pointer-events-none absolute -right-10 -top-14 h-36 w-36 rounded-full border border-[#D4AF37]/20" />
               <div className="pointer-events-none absolute -left-6 bottom-10 h-24 w-24 rounded-full bg-[#D4AF37]/10 blur-2xl" />
@@ -1109,7 +1114,7 @@ export default function HomePage() {
               variants={revealItem}
               whileHover={{ y: -8, scale: 1.02, rotateX: 1.5, rotateY: -4 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="intrigue-card group relative overflow-hidden rounded-[26px] border border-[#D4AF37]/25 bg-gradient-to-b from-[#15120b] via-[#0a0a0a] to-[#070707] p-6"
+              className="intrigue-card luxury-step-card luxury-card-hover group relative rounded-[26px] p-6"
             >
               <div className="absolute -top-12 -right-12 h-28 w-28 rounded-full border border-[#D4AF37]/20" />
               <motion.div
@@ -1136,7 +1141,7 @@ export default function HomePage() {
               variants={revealItem}
               whileHover={{ y: -8, scale: 1.02, rotateX: 1.5, rotateY: -4 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="intrigue-card group relative overflow-hidden rounded-[26px] border border-[#D4AF37]/25 bg-gradient-to-b from-[#15120b] via-[#0a0a0a] to-[#070707] p-6"
+              className="intrigue-card luxury-step-card luxury-card-hover group relative rounded-[26px] p-6"
             >
               <div className="absolute -top-12 -right-12 h-28 w-28 rounded-full border border-[#D4AF37]/20" />
               <motion.div
@@ -1163,7 +1168,7 @@ export default function HomePage() {
               variants={revealItem}
               whileHover={{ y: -8, scale: 1.02, rotateX: 1.5, rotateY: 4 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="intrigue-card group relative overflow-hidden rounded-[26px] border border-[#D4AF37]/25 bg-gradient-to-b from-[#15120b] via-[#0a0a0a] to-[#070707] p-6"
+              className="intrigue-card luxury-step-card luxury-card-hover group relative rounded-[26px] p-6"
             >
               <div className="absolute -top-12 -right-12 h-28 w-28 rounded-full border border-[#D4AF37]/20" />
               <motion.div
@@ -1191,7 +1196,8 @@ export default function HomePage() {
       </section>
 
       {/* GLOW ERA CTA */}
-      <section className="relative py-24 px-4 md:px-8 overflow-hidden">
+      <section className="luxury-depth-shell relative overflow-hidden px-4 py-24 md:px-8">
+        <LuxuryDepthAccents variant="cta" ribbon className="z-10" />
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/glowCta.png"
@@ -1231,7 +1237,7 @@ export default function HomePage() {
               </motion.p>
               <motion.h2
                 variants={revealItem}
-                className="text-4xl md:text-6xl font-serif font-bold text-white leading-[0.95]"
+                className="luxury-text-shadow text-4xl md:text-6xl font-serif font-bold text-white leading-[0.95]"
               >
                 Step Into Your
                 <span className="text-[#D4AF37]"> Glow Era</span>
@@ -1262,7 +1268,7 @@ export default function HomePage() {
             </div>
 
             <motion.div variants={revealItem} className="lg:col-span-5">
-              <div className="relative rounded-[28px] border border-[#D4AF37]/30 bg-black/55 backdrop-blur-sm p-7">
+              <div className="luxury-glass-card luxury-sheen relative rounded-[28px] p-7">
                 <motion.div
                   className="pointer-events-none absolute -inset-[1px] rounded-[28px] border border-[#D4AF37]/35"
                   animate={{ opacity: [0.35, 0.75, 0.35] }}

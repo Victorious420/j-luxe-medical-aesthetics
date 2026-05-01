@@ -61,7 +61,7 @@ export function assertAllowedOrigin(request: Request): OriginCheckResult {
   }
 
   const allowed = buildAllowedOrigins();
-  if (!allowed.has(requestOrigin) && !requestOrigin.endsWith(".vercel.app")) {
+  if (!allowed.has(requestOrigin)) {
     return { ok: false, status: 403, error: "Request origin is not allowed." };
   }
 

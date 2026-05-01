@@ -2,6 +2,9 @@
   "name": "jluxe-aesthetics",
   "version": "0.1.0",
   "private": true,
+  "overrides": {
+    "undici": "^7.24.0"
+  },
   "scripts": {
     "dev": "next dev --webpack",
     "dev:turbopack": "next dev",
@@ -15,7 +18,7 @@
     "deploy:prod": "node -e \"console.error('Do not run prod from here'); process.exit(1)\""
   },
   "dependencies": {
-    "@next/third-parties": "^16.2.1",
+    "@next/third-parties": "16.2.4",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.36.4",
     "@vercel/analytics": "^2.0.1",
@@ -24,8 +27,8 @@
     "framer-motion": "^12.34.2",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.574.0",
-    "next": "16.1.6",
-    "nodemailer": "^8.0.1",
+    "next": "16.2.4",
+    "nodemailer": "8.0.7",
     "pdf-lib": "^1.17.1",
     "pdfkit": "^0.17.2",
     "react": "19.2.3",
@@ -44,7 +47,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.1.6",
+    "eslint-config-next": "16.2.4",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

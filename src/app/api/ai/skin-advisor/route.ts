@@ -92,6 +92,18 @@ function isNonInjectablePreference(value: string): boolean {
   return value.toLowerCase().includes("non") || value.toLowerCase().includes("avoid");
 }
 
+function mentionsUnwantedHair(...values: string[]): boolean {
+  return values.some((value) =>
+    /(hair\s*remov|unwanted hair|excess hair|wax|shav|upper lip hair|chin hair|bikini line|underarm hair)/i.test(value)
+  );
+}
+
+function mentionsHairLoss(...values: string[]): boolean {
+  return values.some((value) =>
+    /(hair loss|hair thinning|thinning hair|receding|alopecia|scalp)/i.test(value)
+  );
+}
+
 function defaultReasonForTreatment(treatment: TreatmentCatalogItem): string {
   return `${treatment.name} aligns with your stated concern, goals, and timeline while matching available treatment options on this website.`;
 }
@@ -99,6 +111,7 @@ function defaultReasonForTreatment(treatment: TreatmentCatalogItem): string {
 function buildFallbackRecommendation(answers: AdvisorAnswers): RecommendationResult {
   const concern = answers.primaryConcern.toLowerCase();
   const goal = answers.goal.toLowerCase();
+  const notes = answers.notes.toLowerCase();
   const nonInjectableOnly = isNonInjectablePreference(answers.injectablePreference);
 
   let treatmentId = DEFAULT_FALLBACK_TREATMENT;
@@ -115,8 +128,10 @@ function buildFallbackRecommendation(answers: AdvisorAnswers): RecommendationRes
     treatmentId = nonInjectableOnly ? "facials" : "skinBoosters";
   } else if (concern.includes("fat") || concern.includes("contour") || goal.includes("slim")) {
     treatmentId = concern.includes("double chin") && !nonInjectableOnly ? "fatDissolving" : "bodySculpting";
-  } else if (concern.includes("hair")) {
+  } else if (mentionsUnwantedHair(concern, goal, notes)) {
     treatmentId = "waxing";
+  } else if (mentionsHairLoss(concern, goal, notes)) {
+    treatmentId = nonInjectableOnly ? "facials" : "prp";
   } else if (concern.includes("teeth") || concern.includes("smile")) {
     treatmentId = "teethWhitening";
   } else if (concern.includes("energy") || concern.includes("wellness")) {

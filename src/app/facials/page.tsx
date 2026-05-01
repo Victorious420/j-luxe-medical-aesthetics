@@ -17,6 +17,7 @@ import Image from "next/image";
 import Link from "next/link";
 import MapEmbed from "../../components/MapEmbed";
 import { pricingCategories, type PricingItem } from "../pricing/pricing-data";
+import LuxuryDepthAccents from "@/src/components/site/LuxuryDepthAccents";
 
 const googleBusinessName = "J Luxe Medical Aesthetics";
 const googleRating = 5;
@@ -222,7 +223,8 @@ export default function FacialsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
-      <section className="relative min-h-[62vh] overflow-hidden border-b border-[#D4AF37]/20 md:min-h-[70vh]">
+      <section className="luxury-depth-shell relative min-h-[62vh] overflow-hidden border-b border-[#D4AF37]/20 md:min-h-[70vh]">
+        <LuxuryDepthAccents variant="hero" ribbon className="z-10" />
         <motion.div
           className="absolute inset-0 z-0"
           initial={{ scale: 1.04 }}

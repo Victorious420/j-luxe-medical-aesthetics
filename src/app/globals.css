@@ -3,6 +3,15 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --luxe-pearl: rgba(255, 246, 234, 0.28);
+  --luxe-champagne: rgba(231, 201, 124, 0.24);
+  --luxe-blush: rgba(234, 193, 184, 0.16);
+  --luxe-ivory: rgba(255, 253, 248, 0.7);
+  --luxe-glass-border: rgba(255, 249, 238, 0.18);
+  --luxe-glass-fill: rgba(20, 16, 11, 0.56);
+  --luxe-shadow: 0 24px 60px rgba(0, 0, 0, 0.34);
+  --luxe-blur: 72px;
+  --luxe-motion-opacity: 0.9;
 }
 
 @theme inline {
@@ -346,6 +355,148 @@ main > :not(.blog-font-theme) :where(h1, h2, h3, h4, h5, h6, .font-serif) {
   filter: saturate(1.03);
 }
 
+.luxury-depth-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+.luxury-glass-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--luxe-glass-border);
+  background:
+    linear-gradient(180deg, rgba(255, 249, 240, 0.08), rgba(255, 255, 255, 0.02)),
+    linear-gradient(140deg, rgba(23, 18, 10, 0.84), rgba(8, 8, 8, 0.72));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    var(--luxe-shadow);
+  backdrop-filter: blur(18px);
+}
+
+.luxury-glass-card::before {
+  content: "";
+  position: absolute;
+  inset: 1px 1px auto;
+  height: 42%;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.luxury-glass-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -12% -38% auto;
+  width: 44%;
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(255, 246, 234, 0.15), transparent 68%);
+  filter: blur(18px);
+  pointer-events: none;
+}
+
+.luxury-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(231, 201, 124, 0.22);
+  background:
+    radial-gradient(circle at top left, rgba(255, 246, 234, 0.14), transparent 42%),
+    linear-gradient(135deg, rgba(24, 18, 11, 0.9), rgba(8, 8, 8, 0.86));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 22px 54px rgba(0, 0, 0, 0.36);
+}
+
+.luxury-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.08), transparent 34%, transparent 62%, rgba(231, 201, 124, 0.08));
+  pointer-events: none;
+}
+
+.luxury-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 24%, rgba(255, 255, 255, 0.15) 42%, transparent 56%);
+  transform: translateX(-135%);
+  animation: luxurySheen 10.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.luxury-step-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 249, 238, 0.15);
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255, 246, 234, 0.14), transparent 40%),
+    linear-gradient(180deg, rgba(25, 18, 10, 0.88), rgba(8, 8, 8, 0.88));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 18px 42px rgba(0, 0, 0, 0.3);
+}
+
+.luxury-step-card::before {
+  content: "";
+  position: absolute;
+  inset: auto 12% -30% auto;
+  width: 36%;
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(231, 201, 124, 0.18), transparent 68%);
+  filter: blur(16px);
+  pointer-events: none;
+}
+
+.luxury-card-hover {
+  transition:
+    transform 0.32s ease,
+    box-shadow 0.32s ease,
+    border-color 0.32s ease,
+    background-color 0.32s ease;
+}
+
+.luxury-card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 24px 52px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(231, 201, 124, 0.22);
+}
+
+.luxury-ribbon {
+  position: absolute;
+  inset: auto auto 0 8%;
+  width: min(34rem, 72vw);
+  height: 7rem;
+  border-radius: 9999px;
+  background:
+    linear-gradient(90deg, rgba(255, 244, 230, 0.18), rgba(231, 201, 124, 0.1), rgba(255, 226, 214, 0.14)),
+    radial-gradient(circle at center, rgba(255, 249, 244, 0.24), transparent 65%);
+  filter: blur(28px);
+  opacity: 0.72;
+  transform: rotate(-10deg);
+  pointer-events: none;
+}
+
+.luxury-text-shadow {
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.36);
+}
+
+@keyframes luxurySheen {
+  0%,
+  78%,
+  100% {
+    transform: translateX(-135%);
+    opacity: 0;
+  }
+  88% {
+    transform: translateX(135%);
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .cta-button {
     animation: none;
@@ -369,6 +520,33 @@ main > :not(.blog-font-theme) :where(h1, h2, h3, h4, h5, h6, .font-serif) {
   .intrigue-card::after {
     animation: none;
     opacity: 0;
+  }
+
+  .luxury-sheen::after {
+    animation: none;
+    opacity: 0;
+  }
+
+  .luxury-card-hover {
+    transition: none;
+  }
+
+  .luxury-card-hover:hover {
+    transform: none;
+    box-shadow: inherit;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --luxe-blur: 48px;
+  }
+
+  .luxury-ribbon {
+    width: min(18rem, 78vw);
+    height: 4.5rem;
+    filter: blur(20px);
+    opacity: 0.56;
   }
 }
 

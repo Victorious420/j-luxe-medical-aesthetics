@@ -13,6 +13,7 @@ import {
   Star,
 } from "lucide-react";
 import MapEmbed from "@/src/components/MapEmbed";
+import LuxuryDepthAccents from "@/src/components/site/LuxuryDepthAccents";
 import type { LocalLandingPageConfig } from "@/src/lib/seo/local-landing-pages";
 
 const siteUrl = "https://www.jluxemedicalaesthetics.com";
@@ -115,7 +116,8 @@ export default function LocalLandingPageView({ page }: LocalLandingPageViewProps
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <section className="relative min-h-[62vh] overflow-hidden border-b border-[#D4AF37]/20 md:min-h-[70vh]">
+      <section className="luxury-depth-shell relative min-h-[62vh] overflow-hidden border-b border-[#D4AF37]/20 md:min-h-[70vh]">
+        <LuxuryDepthAccents variant="hero" ribbon className="z-10" />
         <Image
           src={page.image}
           alt={page.imageAlt}
@@ -191,7 +193,7 @@ export default function LocalLandingPageView({ page }: LocalLandingPageViewProps
             </div>
           </div>
 
-          <article className="rounded-[24px] border border-[#D4AF37]/28 bg-gradient-to-b from-[#17120a] via-[#0b0b0b] to-[#080808] p-5 lg:col-span-4">
+          <article className="luxury-glass-card luxury-sheen rounded-[24px] p-5 lg:col-span-4">
             <div className="grid grid-cols-2 gap-3">
               <article className="rounded-xl border border-white/15 bg-black/45 px-3 py-2.5">
                 <p className="text-[10px] uppercase tracking-[0.14em] text-gray-400">Google Rating</p>
@@ -217,11 +219,12 @@ export default function LocalLandingPageView({ page }: LocalLandingPageViewProps
         </div>
       </section>
 
-      <section className="relative border-b border-neutral-800 bg-[#0b0b0b] px-4 py-7 md:px-8 md:py-8">
+      <section className="luxury-depth-shell relative border-b border-neutral-800 bg-[#0b0b0b] px-4 py-7 md:px-8 md:py-8">
+        <LuxuryDepthAccents variant="section" className="z-0" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(212,175,55,0.1),transparent_45%)]" />
         <div className="relative mx-auto grid w-full max-w-6xl gap-6">
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
-            <article className="rounded-2xl border border-white/15 bg-gradient-to-b from-[#17120a]/70 via-black/55 to-black/75 p-4 text-center">
+            <article className="luxury-step-card rounded-2xl p-4 text-center">
               <span className="mx-auto inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#D4AF37]/40 bg-black/45">
                 <Clock3 className="h-4 w-4 text-[#D4AF37]" />
               </span>
@@ -230,7 +233,7 @@ export default function LocalLandingPageView({ page }: LocalLandingPageViewProps
               </p>
               <p className="mt-1 text-sm font-bold text-white">Fast local route</p>
             </article>
-            <article className="rounded-2xl border border-white/15 bg-gradient-to-b from-[#17120a]/70 via-black/55 to-black/75 p-4 text-center">
+            <article className="luxury-step-card rounded-2xl p-4 text-center">
               <span className="mx-auto inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#D4AF37]/40 bg-black/45">
                 <CalendarDays className="h-4 w-4 text-[#D4AF37]" />
               </span>
@@ -239,7 +242,7 @@ export default function LocalLandingPageView({ page }: LocalLandingPageViewProps
               </p>
               <p className="mt-1 text-sm font-bold text-white">{page.locationName}</p>
             </article>
-            <article className="rounded-2xl border border-white/15 bg-gradient-to-b from-[#17120a]/70 via-black/55 to-black/75 p-4 text-center">
+            <article className="luxury-step-card rounded-2xl p-4 text-center">
               <span className="mx-auto inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#D4AF37]/40 bg-black/45">
                 <ShieldAlert className="h-4 w-4 text-[#D4AF37]" />
               </span>
@@ -248,7 +251,7 @@ export default function LocalLandingPageView({ page }: LocalLandingPageViewProps
               </p>
               <p className="mt-1 text-sm font-bold text-white">Suitability first</p>
             </article>
-            <article className="rounded-2xl border border-white/15 bg-gradient-to-b from-[#17120a]/70 via-black/55 to-black/75 p-4 text-center">
+            <article className="luxury-step-card rounded-2xl p-4 text-center">
               <span className="mx-auto inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#D4AF37]/40 bg-black/45">
                 <Sparkles className="h-4 w-4 text-[#D4AF37]" />
               </span>

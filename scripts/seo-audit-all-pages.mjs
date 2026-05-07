@@ -385,7 +385,6 @@ async function main() {
 
     const results = [];
     for (const route of allRoutes) {
-      // eslint-disable-next-line no-await-in-loop
       const metrics = await auditRoute(route);
       const generic = scoreGenericSeo(metrics);
       const blogAudit = blogKeywordMap.get(route);

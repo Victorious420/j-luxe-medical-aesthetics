@@ -169,10 +169,6 @@ export default function WaxingPage() {
     () => categories.find((category) => category.title === "INTIMATE WAXING (FEMALE)")?.items ?? [],
     [categories],
   );
-  const mensWaxingItems = useMemo(
-    () => categories.find((category) => category.title === "MENS WAXING")?.items ?? [],
-    [categories],
-  );
   const facialWaxingItems = useMemo(
     () => categories.find((category) => category.title === "FACIAL WAXING")?.items ?? [],
     [categories],

@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { PDFDocument, StandardFonts, rgb, type PDFImage, type PDFFont, type PDFPage } from "pdf-lib";
 import { randomUUID } from "node:crypto";
-import path from "node:path";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
 import nodemailer from "nodemailer";
 import { checkRateLimit } from "@/src/lib/security/rate-limit";
 import { verifyTurnstile } from "@/src/lib/security/turnstile";
@@ -904,12 +902,6 @@ const PDF_FORM_TITLE_BY_TEMPLATE: Record<string, string> = {
   standard: "Consultation & Consent Form",
 };
 
-const PDF_LOGO_CANDIDATE_PATHS = [
-  "public/images/logo.png",
-  "public/images/logo.jpg",
-  "public/images/logo.jpeg",
-] as const;
-
 const PDF_FIELD_LABELS_BY_CANONICAL: Record<string, string> = {
   firstName: "First Name",
   lastName: "Last Name",
@@ -1249,24 +1241,6 @@ type PdfFieldEntry = {
   internalBlank?: boolean;
 };
 
-async function tryEmbedPdfLogo(pdfDoc: PDFDocument) {
-  for (const relativePath of PDF_LOGO_CANDIDATE_PATHS) {
-    const absolutePath = path.resolve(process.cwd(), relativePath);
-    try {
-      const bytes = await readFile(absolutePath);
-      if (relativePath.endsWith(".png")) {
-        return await pdfDoc.embedPng(bytes);
-      }
-
-      return await pdfDoc.embedJpg(bytes);
-    } catch {
-      continue;
-    }
-  }
-
-  return null;
-}
-
 async function buildPrintablePdf(
   treatmentName: string,
   template: string,
@@ -1362,24 +1336,6 @@ async function buildPrintablePdf(
     .filter((item) => item.length > 0)
     .join(" ")
     .trim();
-  const logo = await tryEmbedPdfLogo(pdfDoc);
-  let logoHeight = 0;
-
-  if (logo) {
-    const maxLogoWidth = 115;
-    const maxLogoHeight = 44;
-    const scale = Math.min(maxLogoWidth / logo.width, maxLogoHeight / logo.height, 1);
-    const width = logo.width * scale;
-    const height = logo.height * scale;
-    logoHeight = height;
-
-    page.drawImage(logo, {
-      x: pageWidth - margin - width,
-      y: pageHeight - margin - height,
-      width,
-      height,
-    });
-  }
 
   drawWrapped("J Luxe Medical Aesthetics", { size: 13, bold: true, color: colors.accent, spacing: 16 });
   drawWrapped(formTitle, { size: 16, bold: true, spacing: 20, color: colors.text });
@@ -1387,9 +1343,6 @@ async function buildPrintablePdf(
   drawWrapped(`Submitted: ${submittedAtDisplay}`, { size: 9, color: colors.muted, spacing: 12 });
   if (clientDisplay) {
     drawWrapped(`Client: ${clientDisplay}`, { size: 9, color: colors.muted, spacing: 12 });
-  }
-  if (logoHeight > 0) {
-    y = Math.min(y, pageHeight - margin - logoHeight - 10);
   }
   y -= 4;
   drawDivider();
@@ -1661,21 +1614,6 @@ function createDownloadFilename(treatmentName: string, data: Record<string, Fiel
   return `${firstName}-${treatment}-consultation-form.pdf`;
 }
 
-async function savePdfForClinicOnly(reference: string, pdfBytes: Uint8Array): Promise<string> {
-  const configuredDir = process.env.FORMS_PDF_STORAGE_DIR?.trim();
-  const defaultDir = process.env.VERCEL ? "/tmp/reports/submissions" : "reports/submissions";
-  const relativeDir = configuredDir && configuredDir.length > 0 ? configuredDir : defaultDir;
-  const outputDir = path.resolve(process.cwd(), relativeDir);
-
-  await mkdir(outputDir, { recursive: true });
-
-  const fileName = `${reference}.pdf`;
-  const outputPath = path.join(outputDir, fileName);
-  await writeFile(outputPath, Buffer.from(pdfBytes));
-
-  return outputPath;
-}
-
 function parseBooleanEnv(value: string | undefined): boolean {
   if (!value) {
     return false;
@@ -1860,12 +1798,6 @@ export async function POST(request: Request) {
     );
     const submissionReference = createSubmissionReference(treatmentName, submittedAt);
     const downloadFileName = createDownloadFilename(treatmentName, data);
-    try {
-      const pdfPath = await savePdfForClinicOnly(submissionReference, clinicPdfBytes);
-      console.info("[FormSubmit][PdfSaved]", { submissionReference, pdfPath });
-    } catch (error) {
-      console.error("[FormSubmit][PdfSaveFailed]", { submissionReference, error });
-    }
     const clinicEmail = await emailPdfToClinic(
       submissionReference,
       downloadFileName,

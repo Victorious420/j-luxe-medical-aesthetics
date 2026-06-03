@@ -493,7 +493,7 @@ export default function FacialsPage() {
             </p>
             <h2 className="mx-auto mt-3 max-w-[18ch] text-3xl font-serif font-bold uppercase leading-[0.98] md:text-5xl">Facial Treatments</h2>
             <p className="mx-auto mt-4 max-w-3xl text-sm leading-relaxed text-gray-300 md:text-base">
-              Browse our complete facial menu with live pricing and direct Vagaro booking links.
+              Browse our complete facial menu with live pricing and WhatsApp booking requests.
               All facial treatments are consultation-led and customized to your skin goals.
             </p>
           </motion.div>

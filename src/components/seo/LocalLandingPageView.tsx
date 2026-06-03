@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import MapEmbed from "@/src/components/MapEmbed";
 import LuxuryDepthAccents from "@/src/components/site/LuxuryDepthAccents";
+import { buildWhatsAppBookingLink } from "@/src/lib/booking";
 import type { LocalLandingPageConfig } from "@/src/lib/seo/local-landing-pages";
 
 const siteUrl = "https://www.jluxemedicalaesthetics.com";
@@ -42,6 +43,10 @@ function renderStars(rating: number, sizeClass = "w-4 h-4") {
 }
 
 export default function LocalLandingPageView({ page }: LocalLandingPageViewProps) {
+  const bookingHref = buildWhatsAppBookingLink(
+    `${page.serviceLabel} in ${page.locationName}`,
+  );
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -82,7 +87,7 @@ export default function LocalLandingPageView({ page }: LocalLandingPageViewProps
     image: `${siteUrl}${page.image}`,
     offers: {
       "@type": "Offer",
-      url: `${siteUrl}${page.bookingHref}`,
+      url: bookingHref,
       availability: "https://schema.org/InStock",
       priceCurrency: "GBP",
     },
@@ -157,7 +162,9 @@ export default function LocalLandingPageView({ page }: LocalLandingPageViewProps
             </div>
             <div className="mt-7 flex flex-wrap justify-center gap-3 lg:justify-start">
               <Link
-                href={page.bookingHref}
+                href={bookingHref}
+                target="_blank"
+                rel="noreferrer"
                 data-cta-name="book_consultation"
                 data-cta-location="local_service_hero"
                 data-treatment-name={page.treatmentName}
@@ -168,7 +175,7 @@ export default function LocalLandingPageView({ page }: LocalLandingPageViewProps
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <a
-                href="https://wa.me/447883050603"
+                href={bookingHref}
                 target="_blank"
                 rel="noreferrer"
                 data-cta-name="whatsapp"
@@ -212,7 +219,7 @@ export default function LocalLandingPageView({ page }: LocalLandingPageViewProps
               </article>
               <article className="rounded-xl border border-white/15 bg-black/45 px-3 py-2.5">
                 <p className="text-[10px] uppercase tracking-[0.14em] text-gray-400">Booking Route</p>
-                <p className="mt-1 text-sm font-bold text-white">Pricing or WhatsApp</p>
+                <p className="mt-1 text-sm font-bold text-white">WhatsApp</p>
               </article>
             </div>
           </article>
@@ -390,7 +397,9 @@ export default function LocalLandingPageView({ page }: LocalLandingPageViewProps
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
-                href={page.bookingHref}
+                href={bookingHref}
+                target="_blank"
+                rel="noreferrer"
                 data-cta-name="book_consultation"
                 data-cta-location="local_service_resources"
                 data-treatment-name={page.treatmentName}

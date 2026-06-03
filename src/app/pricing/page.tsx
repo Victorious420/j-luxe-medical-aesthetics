@@ -237,7 +237,7 @@ export default function PricingPage() {
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-gray-300">
                 You arrived through a referral link. Copy your code now and keep it safe for
-                Vagaro checkout.
+                your consultation or offline payment.
               </p>
 
               <div className="mt-4 rounded-xl border border-[#D4AF37]/30 bg-black/45 p-3">
@@ -258,9 +258,9 @@ export default function PricingPage() {
               </div>
 
               <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-gray-300">
-                <li>Select a treatment and click BOOK to open Vagaro.</li>
-                <li>At Vagaro checkout, paste this code in the discount or promo code field.</li>
-                <li>Apply the code and complete your booking.</li>
+                <li>Select a treatment and click BOOK to open WhatsApp.</li>
+                <li>Send the pre-filled message and include this code when the clinic replies.</li>
+                <li>The team will confirm availability and next steps for offline payment.</li>
               </ol>
 
               <p className="mt-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#D4AF37]">

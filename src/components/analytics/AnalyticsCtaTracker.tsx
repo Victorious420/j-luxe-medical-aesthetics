@@ -23,7 +23,6 @@ function inferDestination(href: string) {
   if (!href) return "unknown";
   if (href.startsWith("tel:")) return "phone_call";
   if (href.includes("wa.me")) return "whatsapp";
-  if (href.includes("vagaro.com")) return "booking_page";
   if (href.includes("/pricing")) return "booking_page";
   if (href.includes("/contact-us")) return "contact_page";
   if (href.includes("/treatment")) return "treatment_page";

@@ -223,8 +223,13 @@ export default function Footer() {
               href="https://webgrowth.info"
               target="_blank"
               rel="noreferrer"
-              className="text-gray-400 hover:text-[#D4AF37] transition-colors"
+              className="flex items-center gap-2 text-gray-400 hover:text-[#D4AF37] transition-colors"
             >
+              <img 
+                src="/webgrowth-logo.ico" 
+                alt="Web Growth" 
+                className="w-4 h-4"
+              />
               Built by Web Growth
             </a>
             <Link href="/terms-of-use" className="text-gray-400 hover:text-[#D4AF37] transition-colors">

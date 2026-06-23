@@ -95,6 +95,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4073948936216175"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body
         className={`${manrope.variable} ${cormorant.variable} bg-[#0a0a0a] text-white flex flex-col min-h-screen pb-20 antialiased md:pb-0`}
       >
